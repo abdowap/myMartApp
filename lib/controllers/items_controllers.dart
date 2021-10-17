@@ -1,21 +1,27 @@
 import 'package:get/get.dart';
-import 'package:mymart/providers/items_provider.dart';
+import 'package:mymart/model/item_model.dart';
+import 'package:mymart/services/services.dart';
 
 class ItemsControllers extends GetxController {
   final isLoading = true.obs;
   var items = [].obs;
 
-  ItemsProvider _provider = ItemsProvider();
   @override
   void onInit() {
+    fetchItems();
     super.onInit();
-    _provider.itemList().then((response) {
-       response.map((e) => items.add(e));
+  }
+
+  void fetchItems() async {
+    isLoading(true);
+    try {
+      String response = await Services.getAll('items');
+
+      if (response != '') {
+        items.value = itemsFromJson(response);
+      }
+    } finally {
+      isLoading(false);
     }
-    , onError: (err) {
-      print(err.toString());
-      // change(null, status: RxStatus.error(err.toString()));
-    }
-    );
   }
 }

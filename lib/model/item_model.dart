@@ -17,6 +17,7 @@ class Items {
         this.typeId,
         this.types,
         this.units,
+        this.rating,
     });
 
     final int? id;
@@ -26,6 +27,7 @@ class Items {
     final int? typeId;
     final Types? types;
     final Types? units;
+    final int? rating;
 
     factory Items.fromJson(Map<String, dynamic> json) => Items(
         id: json["id"],
